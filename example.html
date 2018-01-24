@@ -76,25 +76,32 @@
                     'scale': 1,
                     'symbols': {
                         'start': {
-                            'font-color': 'green',
-                            'element-color': 'green',
-                            'fill': 'green'
+                            'font-color': 'white',
+                            'element-color': 'black',
+                            'fill':'green'
                         },
                         'end': {
                             'class': 'end-element',
-                            'element-color': 'red',
-                            'font-color': 'red',
+                            'element-color': 'black',
+                            'font-color': 'white',
+                            'fill': 'red'
+                        },
+                        'condition': {
+                            'fill':'orange'
+                        },
+                        'inputoutput': {
+                            'fill':'lightblue'
+                        },
+                        'operation': {
+                            'fill':'lightgreen'
+                        },
+                        'subroutine': {
+                            'element-color':'red'
                         }
                     },
                     'flowstate': {
-                        'action': { 'fill': 'white', 'font-size': 12 },
-                        'past': { 'fill': '#CCCCCC', 'font-size': 12 },
-                        'current': { 'fill': 'yellow', 'font-color': 'red', 'font-weight': 'bold' },
-                        'future': { 'fill': '#FFFF99' },
-                        'request': { 'fill': 'blue' },
-                        'invalid': { 'fill': '#444444' },
-                        'approved': { 'fill': '#58C4A3', 'font-size': 12, 'yes-text': 'APPROVED', 'no-text': 'n/a' },
-                        'rejected': { 'fill': '#C45879', 'font-size': 12, 'yes-text': 'n/a', 'no-text': 'REJECTED' }
+                        'action': { 'fill': 'white'},
+                        'monitor': {'fill':'blue', 'font-color':'white'}
                     }
                 });
                 $('[id^=sub1]').click(function () {
@@ -146,7 +153,7 @@
     e5=>end: End
     tabs=>operation: Tab created or updated
     eventBridge=>operation: Events into state (eventBridge)
-    parseUrl=>operation: Parse/check domain
+    parseUrl=>operation: Parse url and check domain|monitor
     checkOffers=>operation: Check for offers
     updateOffers=>operation: Update offers
     merchantCompliance=>operation: Merchant compliance
