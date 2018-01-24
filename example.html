@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Quobi: Injection and Pop Flow</title>
+    <style type="text/css">
+        .end-element {
+            background-color: #FFCCFF;
+        }
+    </style>
+    <style type="text/css">
+        .tg {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+    
+        .tg td {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            padding: 10px 5px;
+            border-style: solid;
+            border-width: 1px;
+            overflow: hidden;
+            word-break: normal;
+        }
+    
+        .tg th {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+            padding: 10px 5px;
+            border-style: solid;
+            border-width: 1px;
+            overflow: hidden;
+            word-break: normal;
+        }
+    
+        .tg .tg-yw4l {
+            vertical-align: top
+        }
+    </style>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.0/raphael-min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="http://flowchart.js.org/flowchart-latest.js"></script>
+    <!-- <script src="../release/flowchart.min.js"></script> -->
+    <script>
+        window.onload = function () {
+            var btn = document.getElementById("run"),
+                cd = document.getElementById("code"),
+                chart;
+            (btn.onclick = function () {
+                var code = cd.value;
+                if (chart) {
+                    chart.clean();
+                }
+                chart = flowchart.parse(code);
+                chart.drawSVG('canvas', {
+                    // 'x': 30,
+                    // 'y': 50,
+                    'line-width': 3,
+                    'maxWidth': 3,//ensures the flowcharts fits within a certian width
+                    'line-length': 50,
+                    'text-margin': 10,
+                    'font-size': 14,
+                    'font': 'normal',
+                    'font-family': 'Helvetica',
+                    'font-weight': 'normal',
+                    'font-color': 'black',
+                    'line-color': 'black',
+                    'element-color': 'black',
+                    'fill': 'white',
+                    'yes-text': 'yes',
+                    'no-text': 'no',
+                    'arrow-end': 'block',
+                    'scale': 1,
+                    'symbols': {
+                        'start': {
+                            'font-color': 'green',
+                            'element-color': 'green',
+                            'fill': 'green'
+                        },
+                        'end': {
+                            'class': 'end-element',
+                            'element-color': 'red',
+                            'font-color': 'red',
+                        }
+                    },
+                    'flowstate': {
+                        'action': { 'fill': 'white', 'font-size': 12 },
+                        'past': { 'fill': '#CCCCCC', 'font-size': 12 },
+                        'current': { 'fill': 'yellow', 'font-color': 'red', 'font-weight': 'bold' },
+                        'future': { 'fill': '#FFFF99' },
+                        'request': { 'fill': 'blue' },
+                        'invalid': { 'fill': '#444444' },
+                        'approved': { 'fill': '#58C4A3', 'font-size': 12, 'yes-text': 'APPROVED', 'no-text': 'n/a' },
+                        'rejected': { 'fill': '#C45879', 'font-size': 12, 'yes-text': 'n/a', 'no-text': 'REJECTED' }
+                    }
+                });
+                $('[id^=sub1]').click(function () {
+                    alert('info here');
+                });
+            })();
+        };
+    </script>
+</head>
+
+<body>
+    <h1>Quobi: Injection and Pop Flow</h1>
+
+    <div>
+        <h3>Step dependency assumptions</h3>
+        <table class="tg">
+            <tr>
+                <th class="tg-yw4l">Step</th>
+                <th class="tg-yw4l">Dependency(cumulative)</th>
+            </tr>
+            <tr>
+                <td class="tg-yw4l">1) Inject and activate</td>
+                <td class="tg-yw4l">Relationship</td>
+            </tr>
+            <tr>
+                <td class="tg-yw4l">2) Set badge</td>
+                <td class="tg-yw4l">Offers</td>
+            </tr>
+            <tr>
+                <td class="tg-yw4l">3) Pop</td>
+                <td class="tg-yw4l">Compliance</td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="canvas"></div>
+
+    <div>
+        <h3>Edit flowchart data:</h3>
+            <div>
+                <button id="run" type="button">Run</button>
+            </div>
+        <textarea id="code" style="width: 100%;" rows="100">
+    st=>start: Start
+    e1=>end: End
+    e2=>end: End
+    e3=>end: End
+    e4=>end: End
+    e5=>end: End
+    tabs=>operation: Tab created or updated
+    eventBridge=>operation: Events into state (eventBridge)
+    parseUrl=>operation: Parse/check domain
+    checkOffers=>operation: Check for offers
+    updateOffers=>operation: Update offers
+    merchantCompliance=>operation: Merchant compliance
+    accCompliance=>operation: ACC Compliance:>http://www.apsco.org/about-us/affiliates_code_of_conduct.aspx[blank]
+    setStandDown=>operation: Set new stand down for domain/tabId
+    clearStandDown=>operation: Clear standown for domain/tabId
+    
+    beginInject=>subroutine: Action: Begin injecting|action
+    activateOnly=>subroutine: Action: Activate browserAction|action
+    activateAndBadge=>subroutine: Action: Activate and set badge|action
+    setDisplay=>subroutine: Action: set tabs.id.display=true|action
+    
+    relationship=>condition: Relationship with domain merchant?
+    offerStatus=>condition: Are offers loaded/ recent?
+    haveOffers=>condition: Do we have offers?
+    popPermission=>condition: Permission to pop?
+    affSrcPresent=>condition: affsrc=1 present?
+    standDownPresent=>condition: standDown set on domain/tabId?
+    standDownActive=>condition: standDown still active?
+    
+    events=>inputoutput: tab and webNav events
+    stateTabs=>inputoutput: state.tabs
+    stateMerchants=>inputoutput: state.merchants
+    stateOffers=>inputoutput: state.offers
+    stateMerchants2=>inputoutput: state.merchants
+    stateTabs2=>inputoutput: state.tabs.id navHistory and url
+    stateMerchants2=>inputoutput: state.merchants
+    stateStandDowns=>inputoutput: state.standowns
+    stateStandDowns2=>inputoutput: state.standowns.domain
+    
+    st->tabs(right)->events(right)->eventBridge
+    eventBridge(right)->stateTabs(right)->parseUrl
+    parseUrl(right)->stateMerchants->relationship
+    relationship(no, right)->e1
+    relationship(yes)->beginInject->checkOffers
+    checkOffers(right)->stateOffers(right)->offerStatus
+    offerStatus(no)->updateOffers(left)->stateOffers
+    offerStatus(yes, right)->haveOffers
+    haveOffers(no)->activateOnly
+    haveOffers(yes, right)->activateAndBadge(right)->merchantCompliance
+    merchantCompliance(right)->stateMerchants2(right)->popPermission
+    popPermission(no)->e2
+    popPermission(yes, right)->accCompliance(right)->stateTabs2->affSrcPresent
+    affSrcPresent(yes)->setStandDown->stateStandDowns(right)->e3
+    affSrcPresent(no, right)->stateStandDowns2(right)->standDownPresent
+    standDownPresent(yes, right)->standDownActive
+    standDownPresent(no)->setDisplay
+    standDownActive(yes, right)->e4
+    standDownActive(no)->clearStandDown(right)->setDisplay
+    setDisplay->e5
+    </textarea>
+    </div>
+</body>
+
+</html>
+
+<!-- 
+ORIGINAL:
+st=>start: Start|past:>http://www.google.com[blank]
+e=>end: End:>http://www.google.com
+op1=>operation: My Operation|past
+op2=>operation: Stuff|current
+sub1=>subroutine: My Subroutine|invalid
+cond=>condition: Yes
+or No?|approved:>http://www.google.com
+c2=>condition: Good idea|rejected
+io=>inputoutput: catch something...|request
+
+st->op1(right)->cond
+cond(yes, right)->c2
+cond(no)->sub1(left)->op1
+c2(yes)->io->e
+c2(no)->op2->e
+
+-->
