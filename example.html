@@ -151,6 +151,7 @@
     e3=>end: End
     e4=>end: End
     e5=>end: End
+    e6=>end: End
     tabs=>operation: Tab created or updated
     eventBridge=>operation: Events into state (eventBridge)
     parseUrl=>operation: Parse url and check domain|monitor
@@ -162,8 +163,8 @@
     clearStandDown=>operation: Clear standown for domain/tabId
     
     beginInject=>subroutine: Action: Begin injecting|action
-    activateOnly=>subroutine: Action: Activate browserAction|action
-    activateAndBadge=>subroutine: Action: Activate and set badge|action
+    activateBrowserAction=>subroutine: Action: Activate browserAction|action
+    setBrowserActionBadge=>subroutine: Action: Set browserAction badge|action
     setDisplay=>subroutine: Action: set tabs.id.display=true|action
     
     relationship=>condition: Relationship with domain merchant?
@@ -188,12 +189,12 @@
     eventBridge(right)->stateTabs(right)->parseUrl
     parseUrl(right)->stateMerchants->relationship
     relationship(no, right)->e1
-    relationship(yes)->beginInject->checkOffers
+    relationship(yes)->beginInject->activateBrowserAction->checkOffers
     checkOffers(right)->stateOffers(right)->offerStatus
     offerStatus(no)->updateOffers(left)->stateOffers
     offerStatus(yes, right)->haveOffers
-    haveOffers(no)->activateOnly
-    haveOffers(yes, right)->activateAndBadge(right)->merchantCompliance
+    haveOffers(no)->e6
+    haveOffers(yes, right)->setBrowserActionBadge(right)->merchantCompliance
     merchantCompliance(right)->stateMerchants2(right)->popPermission
     popPermission(no)->e2
     popPermission(yes, right)->accCompliance(right)->stateTabs2->affSrcPresent
